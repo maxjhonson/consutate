@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 
 import Custumer from "./components/custumer/Custumer";
 import Admin from "./components/administration/Admin";
-import Landing from "./components/custumer/Landing";
 import TermsAndConditions from "./components/custumer/TermsAndConditions";
 
 window.jQuery = $;

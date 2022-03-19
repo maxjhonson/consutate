@@ -3,20 +3,20 @@ import Landing from "./Landing";
 import "./custumer.css";
 import { MemoryRouter, Route } from "react-router";
 import QuestionList from "./QuestionList";
-import { Link } from "react-router-dom";
+import { Link, Switch } from "react-router-dom";
 import MailForm from "./MailForm";
 
 function Custumer() {
   return (
     <MemoryRouter>
       <div className="box">
-        <div class="row header">
+        <div className="row header" style={{ zIndex: 1 }}>
           <Link to="/">
-            <img src="./consultate-logo.jpg"></img>
+            <img src="./consultate-logo.png"></img>
           </Link>
         </div>
         <div className="row content">
-          <switch>
+          <Switch>
             <Route path="/" exact>
               <Landing />
             </Route>
@@ -26,7 +26,7 @@ function Custumer() {
             <Route path="/mailForm">
               <MailForm />
             </Route>
-          </switch>
+          </Switch>
         </div>
       </div>
     </MemoryRouter>

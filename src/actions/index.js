@@ -81,9 +81,16 @@ export const resetQuestionnaire = () => {
 export const fetchAllQuestionnaires = () => {
   return async (dispatch) => {
     dispatch({ type: FETCH_ALL_QUESTIONNAIRE });
-    const response = await coreApi.get(`/questionnaire/`);
-    dispatch({ type: FETCH_ALL_QUESTIONNAIRE_SUCCESS, payload: response.data });
-    dispatch({ type: UPDATE_LOADING, payload: false });
+    try {
+      const response = await coreApi.get(`/questionnaire/`);
+      dispatch({
+        type: FETCH_ALL_QUESTIONNAIRE_SUCCESS,
+        payload: response.data,
+      });
+      dispatch({ type: UPDATE_LOADING, payload: false });
+    } catch (e) {
+      // console.log(e);
+    }
   };
 };
 
@@ -126,7 +133,7 @@ export const updateQuestionnaire = (formValues) => {
     } catch (err) {
       dispatch({
         type: UPDATE_QUESTIONNAIRE_ERROR,
-        payload: err.response.data.infoMessage,
+        payload: err.response.data.data.message,
       });
     }
   };
@@ -139,7 +146,10 @@ export const addQuestionnaire = (formValues) => {
       const response = await coreApi.post(`/questionnaire/`, formValues);
       dispatch({ type: ADD_QUESTIONNAIRE_SUCCESS, payload: response.data });
     } catch (err) {
-      dispatch({ type: ADD_QUESTIONNAIRE_ERROR, payload: err.response.data.infoMessage });
+      dispatch({
+        type: ADD_QUESTIONNAIRE_ERROR,
+        payload: err.response.data.infoMessage,
+      });
     }
   };
 };
@@ -223,7 +233,10 @@ export const fethAllGradeRecomendation = (questionnaireId) => {
       const result = await coreApi.get(
         `/gradeRecomendation?questionnaireId=${questionnaireId}`
       );
-      dispatch({ type: FETCH_ALL_GRADE_RECOMENDATION_SUCCESS, payload: result.data });
+      dispatch({
+        type: FETCH_ALL_GRADE_RECOMENDATION_SUCCESS,
+        payload: result.data,
+      });
     } catch {
       dispatch({ type: FETCH_ALL_GRADE_RECOMENDATION_ERROR });
     }
@@ -235,7 +248,6 @@ export const addGradeRecomendation = (gradeRecomendation) => {
     dispatch({ type: ADD_GRADE_RECOMENDATION });
     try {
       const result = await coreApi.post("/gradeRecomendation", gradeRecomendation);
-      console.log(result.data);
       dispatch({ type: ADD_GRADE_RECOMENDATION_SUCCESS, payload: result.data });
     } catch {
       dispatch({ type: ADD_GRADE_RECOMENDATION_ERROR });
@@ -248,7 +260,10 @@ export const updateGradeRecomendation = (gradeRecomendation) => {
     dispatch({ type: UPDATE_GRADE_RECOMENDATION });
     try {
       await coreApi.put("/gradeRecomendation", gradeRecomendation);
-      dispatch({ type: UPDATE_GRADE_RECOMENDATION_SUCCESS, payload: gradeRecomendation });
+      dispatch({
+        type: UPDATE_GRADE_RECOMENDATION_SUCCESS,
+        payload: gradeRecomendation,
+      });
     } catch {
       dispatch({ type: UPDATE_GRADE_RECOMENDATION_ERROR });
     }
@@ -273,7 +288,6 @@ export const fetchRootForm = () => {
     dispatch({ type: FETCH_ROOT_FORM });
     try {
       const result = await coreApi.get(`/questionnaireRoot`);
-      console.log("hola", result);
       dispatch({ type: FETCH_ROOT_FORM_SUCCESS, payload: result.data });
     } catch {
       dispatch({ type: FETCH_ROOT_FORM_ERROR });
@@ -287,6 +301,7 @@ export const fetchDependentForm = (id) => {
     try {
       const result = await coreApi.get(`/questionnaireDependent/${id}`);
       dispatch({ type: FETCH_DEPENDENT_FORM_SUCCESS, payload: result.data });
+      return result.data;
     } catch {
       dispatch({ type: FETCH_DEPENDENT_FORM_ERROR });
     }

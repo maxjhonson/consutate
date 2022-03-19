@@ -1,7 +1,7 @@
 import React from "react";
-import { Link, Route, MemoryRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function Landing(props) {
+function Landing() {
   return (
     <div className="landing">
       <div className="landing-img">

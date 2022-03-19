@@ -1,34 +1,33 @@
 import React, { useState } from "react";
 import "./custumer.css";
 
-const Question = ({ index, question, nextQuestion, selectAnswer, previousQuestion }) => {
+const Question = ({ question, nextQuestion, selectAnswer, previousQuestion }) => {
   const [dependant, setDependant] = useState(null);
 
-  const onSelectAnswer = (i, dependantForm) => {
+  const onSelectAnswer = (_id, dependantForm) => {
     setDependant(dependantForm);
-    selectAnswer(index, i);
+    selectAnswer(_id);
   };
 
   const renderAnswer = (answers) => {
-    return answers.map(({ _id, text, dependantForm }, i) => {
+    return answers?.map(({ _id, text, dependantForm }, i) => {
       return (
-        <React.Fragment>
-          <div
-            onClick={() => onSelectAnswer(i, dependantForm)}
-            class="ui grid  ui segment  answer-segment "
-          >
-            <div className="fourteen wide column ">
-              <div key={_id} className="">
-                <h3 className="ui header">{text}</h3>
-              </div>
-            </div>
-            <div className="two wide column">
-              {question.selectedAnswerId === _id && (
-                <i className="check icon" style={{ color: "#5BBFBA" }} />
-              )}
+        <div
+          key={_id}
+          onClick={() => onSelectAnswer(_id, dependantForm?.formId)}
+          class="ui grid  ui segment  answer-segment "
+        >
+          <div className="fourteen wide column ">
+            <div key={_id} className="">
+              <h3 className="ui header">{text}</h3>
             </div>
           </div>
-        </React.Fragment>
+          <div className="two wide column">
+            {question.selectedAnswerId === _id && (
+              <i className="check icon" style={{ color: "#5BBFBA" }} />
+            )}
+          </div>
+        </div>
       );
     });
   };
