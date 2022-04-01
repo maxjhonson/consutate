@@ -32,5 +32,5 @@ function Custumer() {
     </MemoryRouter>
   );
 }
-
+/** */
 export default Custumer;
